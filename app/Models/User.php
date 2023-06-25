@@ -21,6 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        
+        'role',
+        'settings',
+
     ];
 
     /**
@@ -41,5 +45,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'settings' => 'array',
     ];
+
+    public function getUserSinceAttribute()
+{
+    return date('F d, Y', strtotime($this->created_at));
+}
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
 }

@@ -4,8 +4,10 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('@fortawesome/fontawesome-free/js/all.js');
+
 import './bootstrap';
+import '@fortawesome/fontawesome-free/css/all.css';
+
 
 import { createApp } from 'vue';
 
