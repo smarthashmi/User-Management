@@ -98,7 +98,7 @@
     axios.delete('data/users/' + user.id)
       .then(response => {
         // Handle successful deletion
-        console.log("User Deleted");
+       this.flashSuccessAndReload('Successfuly Deleted User' + user.name)   
         //
         this.getUsers();
       })
