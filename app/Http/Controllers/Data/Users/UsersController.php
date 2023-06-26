@@ -52,4 +52,21 @@ class UsersController extends Controller
     return response()->json(['message' => 'User deleted successfully'], 200);
 }
 
+
+    //Update
+    public function update(Request $request, User $user)
+{
+    // Validate the input data if needed
+    // ...
+
+    // Update the user with the new data
+    $user->update($request->all());
+
+    return response()->json([
+        'message' => 'User updated successfully',
+        'user' => $user,
+    ], 200);
+}
+
+
 }

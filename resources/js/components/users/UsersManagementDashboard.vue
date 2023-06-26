@@ -27,7 +27,7 @@
                 <td>{{ user.member && user.member.since }}</td>
                 <td>
                   <div class="btn-group">
-                    <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</button>
+                    <button class="btn btn-sm btn-warning" title="Edit User" @click="editUser(user)"><i class="fas fa-edit"></i> Edit</button>
                     <button class="btn btn-sm btn-danger" @click="deleteUser(user)"><i class="fas fa-trash"></i> Delete</button>
 
                   </div>
@@ -46,6 +46,13 @@
     v-on:created-user="flashSuccessAndReload"
     ></create-user>
 
+    <Edit-User
+        v-if="user !==null && active.editUser"
+        v-bind:user ="user"
+        v-on:view-dashboard="setActive('dashboard')"
+        v-on:user-updated="flashSuccessAndReload"
+    ></Edit-User>
+
     </div>
   </template>
 
@@ -54,11 +61,13 @@
   import axios from 'axios';
   import Paginator from '../utilities/paginations/Paginator.vue';
   import CreateUser from './CreateUser.vue';
+  import EditUser from './EditUser.vue';
 
   export default {
     components: {
       Paginator,
       CreateUser,
+        EditUser,
     },
     data() {
       return {
@@ -69,6 +78,7 @@
         active: {
           dashboard: true,
           createUser: false,
+            editUser: false,
         },
         success_message: null,
       };
@@ -92,13 +102,19 @@
             console.error('Error fetching users:', error);
           });
       },
+
+      editUser(user) {
+        this.user = user;
+        this.setActive('editUser');
+      },
+
       deleteUser(user) {
   let r = confirm("Are you sure you want to delete this user: " + user.name + "?");
   if (r) {
     axios.delete('data/users/' + user.id)
       .then(response => {
         // Handle successful deletion
-       this.flashSuccessAndReload('Successfuly Deleted User' + user.name)   
+       this.flashSuccessAndReload('Successfuly Deleted User' + user.name)
         //
         this.getUsers();
       })
@@ -138,6 +154,6 @@
             setTimeout(() => {
                 this.success_message = null;
             }, 5000);
-        }
+        },
   };
   </script>
